@@ -1,0 +1,21 @@
+{
+    "name": "My UBI9 Container",
+    "build": {
+        "dockerfile": "Dockerfile",
+        "context": "."
+    },
+    "customizations": {
+        "vscode": {
+            "settings": {
+                "terminal.integrated.shell.linux": "/bin/bash",
+                "python.defaultInterpreterPath": "/usr/bin/python3"
+            },
+            "extensions": [
+                "ms-python.python",
+                "ms-vscode-remote.remote-containers"
+            ]
+        }
+    },
+    "postCreateCommand": "echo 'No requirements.txt found, skipping pip install.'",
+    "remoteUser": "root"
+}
