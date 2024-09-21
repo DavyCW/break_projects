@@ -28,6 +28,6 @@
             ]
         }
     },
-    "postCreateCommand": "python3 -m pip install -e .[classification][dev]",
+    "postCreateCommand": "python3 -m pip install -e .[classification,dev]",
     "remoteUser": "root"
 }
