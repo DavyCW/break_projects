@@ -9,5 +9,3 @@ It uses setuptools to handle the package distribution and installation.
 from setuptools import setup
 
 setup()
-
-# intentional break
