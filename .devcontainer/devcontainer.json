@@ -8,14 +8,19 @@
         "vscode": {
             "settings": {
                 "terminal.integrated.shell.linux": "/bin/bash",
-                "python.defaultInterpreterPath": "/usr/bin/python3"
+                "python.defaultInterpreterPath": "/usr/bin/python3",
+                "workbench.colorTheme": "Default Dark+"  // Change to your preferred theme
             },
             "extensions": [
                 "ms-python.python",
                 "ms-vscode-remote.remote-containers",
                 "ms-python.black-formatter",
                 "ms-python.flake8",
-                "matangover.mypy"
+                "matangover.mypy",
+                "njpwerner.autodocstring",
+                "ms-toolsai.jupyter",
+                "ninoseki.vscode-mogami",
+                "mechatroner.rainbow-csv"
             ]
         }
     },
