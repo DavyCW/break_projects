@@ -2,7 +2,7 @@
     "name": "My UBI9 Container",
     "build": {
         "dockerfile": "Dockerfile",
-        "context": "."
+        "context": ".."  // Set context to the parent directory
     },
     "customizations": {
         "vscode": {
@@ -12,10 +12,14 @@
             },
             "extensions": [
                 "ms-python.python",
-                "ms-vscode-remote.remote-containers"
+                "ms-vscode-remote.remote-containers",
+                "ms-python.black-formatter",
+                "ms-python.flake8",
+                "matangover.mypy"
             ]
         }
     },
-    "postCreateCommand": "echo 'No requirements.txt found, skipping pip install.'",
+    "postCreateCommand": "python3 -m pip install -e .[dev]",
     "remoteUser": "root"
 }
+
