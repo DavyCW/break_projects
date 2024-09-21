@@ -1,5 +1,5 @@
 {
-    "name": "My UBI9 Container",
+    "name": "Break Projects Container",
     "build": {
         "dockerfile": "Dockerfile",
         "context": ".."  // Set context to the parent directory
@@ -9,7 +9,8 @@
             "settings": {
                 "terminal.integrated.shell.linux": "/bin/bash",
                 "python.defaultInterpreterPath": "/usr/bin/python3",
-                "workbench.colorTheme": "Default Dark+"  // Change to your preferred theme
+                "workbench.colorTheme": "Monokai Pro (Filter Machine)",
+                "workbench.iconTheme": "Monokai Pro (Filter Machine) Icons"
             },
             "extensions": [
                 "ms-python.python",
@@ -20,11 +21,13 @@
                 "njpwerner.autodocstring",
                 "ms-toolsai.jupyter",
                 "ninoseki.vscode-mogami",
-                "mechatroner.rainbow-csv"
+                "mechatroner.rainbow-csv",
+                "monokai.theme-monokai-pro-vscode",
+                "usernamehw.errorlens",
+                "KevinRose.vsc-python-indent"
             ]
         }
     },
-    "postCreateCommand": "python3 -m pip install -e .[dev]",
+    "postCreateCommand": "python3 -m pip install -e .[classification][dev]",
     "remoteUser": "root"
 }
-
