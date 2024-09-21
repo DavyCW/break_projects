@@ -17,5 +17,8 @@ COPY ../pyproject.toml .
 RUN python3 -m pip install --upgrade pip && \
     python3 -m pip install -e .[dev]
 
+# Expose the port that the app runs on
+EXPOSE 8050
+
 # Set the default command to run when the container starts
 CMD ["python3"]

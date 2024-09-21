@@ -32,6 +32,8 @@ from typing import List
 import matplotlib.pyplot as plt
 from matplotlib import colors as mcolors
 import plotly.graph_objects as go
+import dash
+from dash import dcc, html
 
 
 class GenerateData:
@@ -700,7 +702,7 @@ class GenerateData:
 
         return plot_data, X, y
 
-    def __call__(self) -> None:
+    def __call__(self, display: str = 'notebook') -> None:
         """
         Create and display a 3D plot using Plotly.
 
@@ -717,6 +719,11 @@ class GenerateData:
         Dependencies
         ------------
         plotly : Package to plot 3D data beautifully.
+
+        Parameters
+        ----------
+        display : str, optional
+            Mode for displaying plot, by default 'notebook'
 
         Examples
         --------
@@ -758,9 +765,16 @@ class GenerateData:
             ),
         )
 
-        fig.show(renderer='vscode')
+        if display == 'container':
+            # Initialize the Dash app
+            app = dash.Dash(__name__)
+            # Define the layout of the Dash app
+            app.layout = html.Div([dcc.Graph(id='3d-plot', figure=fig)])
+            app.run_server(debug=True, host='0.0.0.0', port=8050)
+        elif display == 'notebook':
+            fig.show()
 
 
 if __name__ == "__main__":
     gen = GenerateData()
-    gen()
+    gen('container')
