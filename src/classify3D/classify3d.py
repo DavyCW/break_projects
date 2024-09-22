@@ -14,16 +14,27 @@ sphere which also acts as that sphere's label.
 
 Dependencies
 ------------
-numpy : Package for fast array manipulation.
-scipy : Package for statistical distributions.
-typing : Package for more descriptive type hints.
-matplotlib : Package for good color distributions.
-plotly : Package to plot 3D data beautifully.
+    External
+    --------
+    numpy
+        Package for fast array manipulation.
+    scipy
+        Package for statistical distributions.
+    typing
+        Package for more descriptive type hints.
+    matplotlib
+        Package for good color distributions.
+    plotly
+        Package to plot 3D data beautifully.
+    dash
+        Package for making reactive web applications.
 
 Attributes
 ----------
-GenerateData : class
-    Generates 3D data based on passed file.
+    Classes
+    -------
+    GenerateData
+        Generates 3D data based on passed file.
 """
 
 import numpy as np
@@ -53,69 +64,51 @@ class GenerateData:
 
     Dependencies
     ------------
-    numpy : Package for fast array manipulation.
-    scipy : Package for statistical distributions.
-    typing : Package for more descriptive type hints.
-    matplotlib : Package for good color distributions.
-    plotly : Package to plot 3D data beautifully.
+        External
+        --------
+        numpy
+            Package for fast array manipulation.
+        scipy
+            Package for statistical distributions.
+        typing
+            Package for more descriptive type hints.
+        matplotlib
+            Package for good color distributions.
+        plotly
+            Package to plot 3D data beautifully.
+        dash
+            Package for making reactive web applications.
 
-    Methods
-    -------
-    __init__(file_name,
-             resolution,
-             avg_points_per_sphere,
-             min_points_per_sphere,
-             radial_scale
-             )
-        Initializes the object with given parameters, reads data from a file,
-        and generates initial data points.
-    __repr__()
-        Returns a string representation of the object.
-    _open_file()
-        Reads the file and extracts coordinates and radius values.
-    _generate_sphere_faces()
-        Generates the faces of the sphere as triangles for visualization.
-    _generate_sphere_points()
-        Generates points on the surface of a sphere based on the given
-        resolution.
-    _generate_points_in_sphere()
-        Generates random points uniformly distributed within a sphere.
-    _generate_unique_colors()
-        Generates a list of unique colors for plotting different spheres.
-    _generate_dirichlet_unbalanced()
-        Generates unbalanced class distributions using a Dirichlet
-        distribution.
-    _generate_data()
-        Generates all data points and organizes them for visualization.
-    __call__()
-        Plots the generated data in a 3D visualization.
-    """
+    Attributes
+    ----------
+        Functions
+        ---------
+        __init__()
+            Initializes the object with given parameters, reads data from a
+            file, and generates initial data points.
+        __repr__()
+            Returns a string representation of the object.
+        _open_file()
+            Reads the file and extracts coordinates and radius values.
+        _generate_sphere_faces()
+            Generates the faces of the sphere as triangles for visualization.
+        _generate_sphere_points()
+            Generates points on the surface of a sphere based on the given
+            resolution.
+        _generate_points_in_sphere()
+            Generates random points uniformly distributed within a sphere.
+        _generate_unique_colors()
+            Generates a list of unique colors for plotting different spheres.
+        _generate_dirichlet_unbalanced()
+            Generates unbalanced class distributions using a Dirichlet
+            distribution.
+        _generate_data()
+            Generates all data points and organizes them for visualization.
+        __call__()
+            Plots the generated data in a 3D visualization.
 
-    def __init__(
-        self,
-        file_name: str = "/workspaces/Break_Projects/data/ssp256.txt",
-        resolution: int = 30,
-        avg_points_per_sphere: int = 1000,
-        min_points_per_sphere: int = 100,
-        radial_scale: float = 1.0,
-    ) -> None:
-        """
-        Initialize the GenerateData object.
-
-        Name
-        ----
-        __init__
-
-        Description
-        -----------
-        This constructor reads the input file to obtain initial coordinates and
-        radius values, and sets various parameters that control the resolution,
-        number of points per sphere, and the distribution of points. The
-        constructor also calls the `_generate_data` method to create data
-        points based on the specified attributes.
-
-        Attributes
-        ----------
+        Variables
+        ---------
         file_name : str
             Path to the input file containing initial coordinates and radius
             values.
@@ -148,6 +141,39 @@ class GenerateData:
             the dataset.
         y : np.ndarray
             A 1D array containing class labels for the generated points.
+    """
+
+    def __init__(
+        self,
+        file_name: str = "/workspaces/Break_Projects/data/ssp256.txt",
+        resolution: int = 30,
+        avg_points_per_sphere: int = 1000,
+        min_points_per_sphere: int = 100,
+        radial_scale: float = 1.0,
+    ) -> None:
+        """
+        Initialize the GenerateData object.
+
+        Name
+        ----
+        __init__
+
+        Description
+        -----------
+        This constructor reads the input file to obtain initial coordinates and
+        radius values, and sets various parameters that control the resolution,
+        number of points per sphere, and the distribution of points. The
+        constructor also calls the `_generate_data` method to create data
+        points based on the specified attributes.
+
+        Dependencies
+        ------------
+            Internal
+            --------
+            _open_file()
+                Reads the file and extracts coordinates and radius values.
+            _generate_data()
+                Generates all data points and organizes them for visualization.
 
         Parameters
         ----------
@@ -285,7 +311,10 @@ class GenerateData:
 
         Dependencies
         ------------
-        numpy : Package for fast array manipulation.
+            External
+            --------
+            numpy
+                Package for fast array manipulation.
 
         Returns
         -------
@@ -354,7 +383,10 @@ class GenerateData:
 
         Dependencies
         ------------
-        numpy : Package for fast array manipulation.
+            External
+            --------
+            numpy
+                Package for fast array manipulation.
 
         Parameters
         ----------
@@ -418,8 +450,12 @@ class GenerateData:
 
         Dependencies
         ------------
-        numpy : Package for fast array manipulation.
-        scipy : Package for statistical distributions.
+            External
+            --------
+            numpy
+                Package for fast array manipulation.
+            scipy
+                Package for statistical distributions.
 
         Parameters
         ----------
@@ -432,8 +468,8 @@ class GenerateData:
         Returns
         -------
         np.ndarray
-            An array of shape (N, 3) where N is the number of points generated.
-            Each row represents the (x, y, z) coordinates of a point.
+            An array of shape (N, 6) where N is the number of points generated.
+            Each row represents the (x, y, z, r theta phi) coordinates.
 
         Examples
         --------
@@ -448,7 +484,7 @@ class GenerateData:
                                                     num_points=num_points
                                                     )
         >>> points.shape
-        (100, 3)
+        (100, 6)
         """
         # Generate random spherical coordinates
         u = uniform.rvs(size=num_points)
@@ -465,7 +501,9 @@ class GenerateData:
         z = r * np.cos(theta)
 
         # Stack and shift points by center
-        points = np.vstack((x, y, z)).T + center
+        points = np.vstack(
+            tup=(x + center[0], y + center[1], z + center[2], r, theta, phi)
+        ).T
 
         return points
 
@@ -484,10 +522,15 @@ class GenerateData:
         format and are shuffled to ensure randomness.
 
         Dependencies
-        ----------_
-        numpy : Package for fast array manipulation.
-        typing : Package for more descriptive type hints.
-        matplotlib : Package for good color distributions.
+        ------------
+            External
+            --------
+            numpy
+                Package for fast array manipulation.
+            typing
+                Package for more descriptive type hints.
+            matplotlib
+                Package for good color distributions.
 
         Returns
         -------
@@ -540,8 +583,12 @@ class GenerateData:
 
         Dependencies
         ------------
-        numpy : Package for fast array manipulation.
-        scipy : Package for statistical distributions.
+            External
+            --------
+            numpy
+                Package for fast array manipulation.
+            scipy
+                Package for statistical distributions.
 
         Returns
         -------
@@ -609,8 +656,30 @@ class GenerateData:
 
         Dependencies
         ------------
-        numpy : Package for fast array manipulation.
-        plotly : Package to plot 3D data beautifully.
+            External
+            --------
+            numpy
+                Package for fast array manipulation.
+            plotly
+                Package to plot 3D data beautifully.
+
+            Internal
+            --------
+                _generate_dirichlet_unbalanced()
+                    Generates unbalanced class distributions using a Dirichlet
+                    distribution.
+                _generate_unique_colors()
+                    Generates a list of unique colors for plotting different
+                    spheres.
+                _generate_sphere_faces()
+                    Generates the faces of the sphere as triangles for
+                    visualization.
+                _generate_sphere_points()
+                    Generates random points uniformly distributed within a
+                    sphere.
+                _generate_points_in_sphere()
+                    Generates points on the surface of a sphere based on the
+                    given resolution.
 
         Returns
         -------
@@ -629,7 +698,7 @@ class GenerateData:
         >>> len(plot_data)
         4  # Assuming 2 spheres, each with one Mesh3d and one Scatter3d plot.
         >>> X.shape
-        (2000, 3)  # Assuming a mean of 1000 points per sphere and 2 spheres.
+        (2000, 6)  # Assuming a mean of 1000 points per sphere and 2 spheres.
         >>> y.shape
         (2000, )  # Labels for each of the points in X.
         """
@@ -640,7 +709,7 @@ class GenerateData:
         unique_colors = self._generate_unique_colors()
 
         # Step 3: Initialize X since we'll be concatenating with it.
-        X = np.empty(shape=(0, 3), dtype=float)
+        X = np.empty(shape=(0, 6), dtype=float)
 
         # Step 4: Copy the unique labels according to the shape of X.
         y = np.array(
@@ -678,10 +747,8 @@ class GenerateData:
             )
 
             # Generate random points inside the current sphere.
-
-            n = dirichlet_unbalanced[i]
             random_points = self._generate_points_in_sphere(
-                center=center, num_points=n
+                center=center, num_points=dirichlet_unbalanced[i]
             )
             plot_data.append(
                 go.Scatter3d(
@@ -718,7 +785,12 @@ class GenerateData:
 
         Dependencies
         ------------
-        plotly : Package to plot 3D data beautifully.
+            External
+            --------
+            plotly
+                Package to plot 3D data beautifully.
+            dash
+                Package for making reactive web applications.
 
         Parameters
         ----------

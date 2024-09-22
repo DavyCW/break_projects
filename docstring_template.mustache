@@ -3,7 +3,12 @@
 
 Name
 ----
+{{#name}}
 {{name}}
+{{/name}}
+{{^name}}
+_name_
+{{/name}}
 
 Description
 -----------
@@ -11,12 +16,34 @@ Description
 
 Dependencies
 ------------
-{{#placeholder}}_dependency_{{/placeholder}} : {{descriptionPlaceholder}}
+    External
+    --------
+{{#placeholder}}        -_external_dependency_{{/placeholder}}
+            {{descriptionPlaceholder}}
+    
+    Internal
+    --------
+{{#placeholder}}        -_internal_dependency_{{/placeholder}}
+            {{descriptionPlaceholder}}
 
+{{^name}}
 Attributes
 ----------
-{{#placeholder}}_attribute_{{/placeholder}} : {{#placeholder}}_type_{{/placeholder}}
-    {{descriptionPlaceholder}}
+    Classes
+    -------
+        -{{#placeholder}}_class_{{/placeholder}}
+            {{descriptionPlaceholder}}
+    
+    Functions
+    ---------
+        -{{#placeholder}}_function_{{/placeholder}}
+            {{descriptionPlaceholder}}
+    
+    Variables
+    ---------
+        -{{#placeholder}}_variable_{{/placeholder}} : {{#placeholder}}_type_{{/placeholder}}
+            {{descriptionPlaceholder}}
+{{/name}}
 
 {{#parametersExist}}
 
@@ -31,6 +58,7 @@ Parameters
     {{descriptionPlaceholder}}, by default {{&default}}
 {{/kwargs}}
 {{/parametersExist}}
+
 {{#returnsExist}}
 
 Returns
@@ -59,6 +87,8 @@ Raises
 {{/exceptions}}
 {{/exceptionsExist}}
 
+{{#name}}
 Examples
 --------
 {{#placeholder}}_example_{{/placeholder}}
+{{/name}}
