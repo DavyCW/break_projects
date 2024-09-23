@@ -3,7 +3,7 @@ Module containing the GenerateData class.
 
 Name
 ----
-classify3d.py
+generate_data.py
 
 Description
 -----------
@@ -87,7 +87,7 @@ class GenerateData:
             Initializes the object with given parameters, reads data from a
             file, and generates initial data points.
         __repr__()
-            Returns a string representation of the object.
+            Provide a string representation of the GenerateData object.
         _open_file()
             Reads the file and extracts coordinates and radius values.
         _generate_sphere_faces()

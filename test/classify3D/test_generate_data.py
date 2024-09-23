@@ -80,7 +80,7 @@ Attributes
 from pathlib import Path
 import pytest
 import numpy as np
-from src.classify3D.classify3d import GenerateData
+from src.classify3D.generate_data import GenerateData  # type: ignore
 
 
 @pytest.fixture
