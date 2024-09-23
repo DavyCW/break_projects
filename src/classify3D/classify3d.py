@@ -287,7 +287,7 @@ class GenerateData:
         """
         with open(file=self.file_name, mode="r") as f:
             split: list[str] = f.read().split(sep='\n')
-            radius: float = float(split[0])
+            radius: float = float(split[0].strip())
             coordset: list[str] = split[1:-1]
             coords: list[list[float]] = [
                 [float(x), float(y), float(z)]
