@@ -1,7 +1,7 @@
 {
     "name": "Break Projects Container",
     "build": {
-        "dockerfile": "Dockerfile",
+        "dockerfile": ".Dockerfile",
         "context": ".."  // Set context to the parent directory
     },
     "customizations": {
@@ -9,8 +9,8 @@
             "settings": {
                 "terminal.integrated.shell.linux": "/bin/bash",
                 "python.defaultInterpreterPath": "/usr/bin/python3",
-                "workbench.colorTheme": "Monokai Pro (Filter Machine)",
-                "workbench.iconTheme": "Monokai Pro (Filter Machine) Icons"
+                "workbench.colorTheme": "One Monokai",
+                "workbench.iconTheme": "easy-icons"
             },
             "extensions": [
                 "ms-python.python",
@@ -22,9 +22,11 @@
                 "ms-toolsai.jupyter",
                 "ninoseki.vscode-mogami",
                 "mechatroner.rainbow-csv",
-                "monokai.theme-monokai-pro-vscode",
                 "usernamehw.errorlens",
-                "KevinRose.vsc-python-indent"
+                "KevinRose.vsc-python-indent",
+                "Codeium.codeium",
+                "azemoh.one-monokai",
+                "jamesmaj.easy-icons"
             ]
         }
     },

@@ -184,7 +184,7 @@ def test_init_custom_params(common_data_file: Path) -> None:
         radial_scale=0.8,
     )
 
-    assert data_generator.file_name == common_data_file
+    assert data_generator.file_name == str(common_data_file)
     assert data_generator.resolution == 50
     assert data_generator.avg_points_per_sphere == 500
     assert data_generator.min_points_per_sphere == 50
