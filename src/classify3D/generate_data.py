@@ -231,11 +231,11 @@ class GenerateData:
         >>> data_generator = GenerateData()
         >>> print(data_generator)
         GenerateData(file_name: /workspaces/Break_Projects/data/ssp256.txt,
-                     resolution: 30,
-                     avg_points_per_sphere: 1000,
-                     min_points_per_sphere: 100,
-                     radial_scale: 1.0
-                     )
+        ...          resolution: 30,
+        ...          avg_points_per_sphere: 1000,
+        ...          min_points_per_sphere: 100,
+        ...          radial_scale: 1.0
+        ...          )
         """
         return (
             f"GenerateData("
@@ -481,8 +481,8 @@ class GenerateData:
         >>> center = np.array([0.0, 0.0, 0.0])
         >>> num_points = 100
         >>> points = gen._generate_points_in_sphere(center=center,
-                                                    num_points=num_points
-                                                    )
+        ...                                         num_points=num_points
+        ...                                         )
         >>> points.shape
         (100, 6)
         """
@@ -543,15 +543,15 @@ class GenerateData:
         method to generate a list of unique colors:
 
         >>> gen = GenerateData(file_name="/path/to/file.txt",
-                               resolution=10
-                               )
+        ...                    resolution=10
+        ...                    )
         >>> colors = gen._generate_unique_colors()
 
         Verify that each color is represented as a hexadecimal string:
 
         >>> all(isinstance(color, str) and
-                color.startswith('#') for color in colors
-                )
+        ...     color.startswith('#') for color in colors
+        ...     )
         True
         """
         # Generate a colormap from 'rainbow'

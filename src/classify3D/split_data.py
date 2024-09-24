@@ -30,19 +30,19 @@ Attributes
     Classes
     -------
     Data
-        A class representing the data to be split.
+        A class representing the split data.
     SplitData
         A class responsible for splitting the data.
 """
 
 from sklearn.model_selection import train_test_split
 import numpy as np
-from src.classify3D.classify3d import GenerateData  # type: ignore
+from src.classify3D.generate_data import GenerateData  # type: ignore
 
 
 class Data:
     """
-    A class representing the data split.
+    A class representing the split data.
 
     Name
     ----
@@ -149,9 +149,9 @@ class Data:
         >>> data = Data(train_data, test_data, val_data)
         >>> print(data)
         Data(train=(3, )),
-             test=(3, )),
-             val=(3, ))
-             )
+        ...  test=(3, )),
+        ...  val=(3, ))
+        ...  )
         """
         return (
             f"Data(train: {self.train.shape}, "
@@ -186,19 +186,12 @@ class SplitData:
         Internal
         --------
         Data
-            A class representing the data split.
+            A class representing the split data.
         GenerateData
             Generates 3D data based on passed file.
 
     Attributes
     ----------
-        Classes
-        -------
-        X
-            The feature data.
-        y
-            The target data.
-
         Functions
         ---------
         __init__()
@@ -212,6 +205,10 @@ class SplitData:
 
         Variables
         ---------
+        X : Data
+            The feature data.
+        y : Data
+            The target data.
         train_prop : float
             The proportion of data to use for training.
         test_prop : float
@@ -362,7 +359,7 @@ class SplitData:
             Internal
             --------
             Data
-                A class representing the data split.
+                A class representing the split data.
             GenerateData
                 Generates 3D data based on passed file.
 
@@ -393,3 +390,9 @@ class SplitData:
         else:
             self.X = Data(train=X_tr, test=X_tv, val=np.empty_like(X_tr))
             self.y = Data(train=y_tr, test=y_tv, val=np.empty_like(y_tr))
+
+
+if __name__ == "__main__":
+    gen = GenerateData()
+    gen('container')
+    split = SplitData(gen=gen)
