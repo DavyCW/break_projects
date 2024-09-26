@@ -20,14 +20,14 @@ Dependencies
         Package for data manipulation and analysis.
     dash
         Package for making reactive web applications.
-    ipykernel
-        Package for displaying plots in Jupyter notebooks.
     matplotlib
         Package for good color distributions.
     dash_bootstrap_components
         Package for creating Bootstrap components.
     plotly
         Package to plot 3D data beautifully.
+    ipywidgets
+        Package for making interactive web applications.
 
     Internal
     --------
@@ -53,6 +53,9 @@ from src.classify3D.split_data import SplitData  # type: ignore
 from typing import Optional
 import dash_bootstrap_components as dbc
 import plotly.graph_objects as go
+from matplotlib import colors as mcolors
+import colorsys
+import ipywidgets as widgets
 
 
 class BasicCorrelation:
@@ -83,6 +86,8 @@ class BasicCorrelation:
             Package for creating Bootstrap components.
         plotly
             Package to plot 3D data beautifully.
+        ipywidgets
+            Package for making interactive web applications.
 
         Internal
         --------
@@ -192,6 +197,8 @@ class BasicCorrelation:
                 Package for data manipulation and analysis.
             plotly
                 Package to plot 3D data beautifully.
+            matplotlib
+                Package for good color distributions.
 
         Parameters
         ----------
@@ -215,15 +222,28 @@ class BasicCorrelation:
         # Calculate the correlation matrix
         corr_matrix = df.corr().iloc[::-1, :]
 
+        # Convert RGB to HSV
+        hsv = colorsys.rgb_to_hsv(*mcolors.hex2color(self.base_color))
+
+        opposite_hsv = (hsv[0] + 0.5) % 1.0, hsv[1], hsv[2]
+
+        opposite_hex = mcolors.to_hex(colorsys.hsv_to_rgb(*opposite_hsv))
+
         # Define your custom hex color and white as the color scale
-        custom_colorscale = [[0, '#FFFFFF'], [1, self.base_color]]
+        custom_colorscale = [
+            [0, opposite_hex],
+            [0.5, '#FFFFFF'],
+            [1, self.base_color],
+        ]
 
         # Create the heatmap
-        fig = go.Figure(
+        fig = go.FigureWidget(
             data=go.Heatmap(
                 z=corr_matrix.values,
                 x=corr_matrix.columns,
                 y=corr_matrix.index,
+                zmin=-1,  # Set the minimum value for the color scale
+                zmax=1,  # Set the maximum value for the color scale
                 colorscale=custom_colorscale,
                 reversescale=False,
                 showscale=True,
@@ -248,8 +268,8 @@ class BasicCorrelation:
             xaxis_title='Features',
             yaxis_title='Features',
             font_size=14,
-            width=750,
-            height=750,
+            width=600,
+            height=600,
             font=dict(color=self.base_color),
             paper_bgcolor='#222',
             autosize=False,
@@ -283,6 +303,8 @@ class BasicCorrelation:
                 Package for making reactive web applications.
             dash_bootrstrap_components
                 Package for creating Bootstrap components.
+            ipywidgets
+                Package for making interactive web applications.
 
         Parameters
         ----------
@@ -305,7 +327,11 @@ class BasicCorrelation:
         """
         if display == 'notebook':
             # Display the DataFrame within a Jupyter notebook
-            self.basic_correlation.show()
+            container = widgets.VBox(
+                children=[self.basic_correlation],
+                layout=widgets.Layout(align_items='center'),
+            )
+            return container
 
         elif display == 'container' or display == 'none':
             app = dash.Dash(
@@ -319,19 +345,13 @@ class BasicCorrelation:
                         children=dbc.Col(
                             children=dcc.Graph(
                                 id='heatmap', figure=self.basic_correlation
-                            )
-                        )
+                            ),
+                            width="auto",
+                        ),
+                        justify='center',  # Center the Row content
                     ),
                 ],
                 fluid=True,
-                style={
-                    'display': 'flex',
-                    'flex-direction': 'column',
-                    'align-items': 'center',
-                    'justify-content': 'flex-start',
-                    'height': '100vh',
-                    'padding-top': '20px',
-                },
             )
 
             if display == 'container':
