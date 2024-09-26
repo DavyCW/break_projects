@@ -1,13 +1,13 @@
 """
-Module calculates and displays basic correlation of a dataset.
+Module calculates and displays pairplot of a dataset.
 
 Name
 ----
-basic_correlation.py
+pairplot.py
 
 Description
 -----------
-This module provides a class for calculating and displaying basic correlation
+This module provides a class for calculating and displaying pairplot
 of a dataset.
 
 Dependencies
@@ -40,8 +40,8 @@ Attributes
 ----------
     Classes
     -------
-    BasicCorrelation
-        A class representing basic correlation of a dataset.
+    PairPlot
+        A class representing pairplot of a dataset.
 """
 
 import numpy as np
@@ -100,13 +100,13 @@ class PairPlot:
         Functions
         ---------
         __init__()
-            Initialize the BasicStatistics object with a dataset.
+            Initialize the PairPlot object with a dataset.
         __repr__()
-            Provide a string representation of the BasicStatistics object.
+            Provide a string representation of the PairPlot object.
         _get_pairplot()
-            Calculate basic correlation of a dataset.
+            Calculate pairplot of a dataset.
         __call__()
-            Display the basic statistics of the dataset.
+            Display the pairplot of the dataset.
 
         Variables
         ---------

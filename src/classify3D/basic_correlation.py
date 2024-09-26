@@ -101,13 +101,13 @@ class BasicCorrelation:
         Functions
         ---------
         __init__()
-            Initialize the BasicStatistics object with a dataset.
+            Initialize the BasicCorrelation object with a dataset.
         __repr__()
-            Provide a string representation of the BasicStatistics object.
+            Provide a string representation of the BasicCorrelation object.
         _get_basic_correlation()
             Calculate basic correlation of a dataset.
         __call__()
-            Display the basic statistics of the dataset.
+            Display the basic correlation of the dataset.
 
         Variables
         ---------
