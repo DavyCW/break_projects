@@ -1,13 +1,13 @@
 """
-Module calculates and displays outliers of a dataset.
+Module calculates and displays novelty of a dataset.
 
 Name
 ----
-outliers.py
+novelty.py
 
 Description
 -----------
-This module provides a class for calculating and displaying outliers
+This module provides a class for calculating and displaying novelty
 of a dataset.
 
 Dependencies
@@ -30,8 +30,6 @@ Dependencies
         Package for making interactive web applications.
     scikit-learn
         Package for machine learning algorithms.
-    scipy
-        Package for statistical distributions.
 
     Internal
     --------
@@ -44,8 +42,8 @@ Attributes
 ----------
     Classes
     -------
-    Outliers
-        A class representing outliers of a dataset.
+    Novelty
+        A class representing novelty of a dataset.
 """
 
 import numpy as np
@@ -61,20 +59,19 @@ import ipywidgets as widgets
 from sklearn.ensemble import IsolationForest
 from sklearn.svm import OneClassSVM
 from sklearn.neighbors import LocalOutlierFactor
-from scipy import stats
 
 
-class Outliers:
+class Novelty:
     """
-    A class representing outliers of a dataset.
+    A class representing novelty of a dataset.
 
     Name
     ----
-    Outliers
+    Novelty
 
     Description
     -----------
-    This class provides methods for calculating outliers of a dataset.
+    This class provides methods for calculating novelty of a dataset.
 
     Dependencies
     ------------
@@ -96,8 +93,6 @@ class Outliers:
             Package for making interactive web applications.
         scikit-learn
             Package for machine learning algorithms.
-        scipy
-            Package for statistical distributions.
 
         Internal
         --------
@@ -111,28 +106,30 @@ class Outliers:
         Functions
         ---------
         __init__()
-            Initialize the Outliers object with a dataset.
+            Initialize the Novelty object with a dataset.
         __repr__()
-            Provide a string representation of the Outliers object.
-        _get_outliers()
-            Create a plotly figure to visualize the outliers.
+            Provide a string representation of the Novelty object.
+        _get_novelty()
+            Create a plotly figure to visualize the novelty.
         __call__()
-            Display the outliers of the dataset.
-        _get_z_score_outliers()
-            Calculate the z-scores for each data point and identify outliers.
-        _get_iqr_outliers()
-            Calculate the interquartile range (IQR) and identify outliers.
-        _get_isolation_forest_outliers()
-            Identify outliers using the Isolation Forest algorithm.
-        _get_one_class_svm_outliers()
-            Identify outliers using the One-Class SVM algorithm.
-        _get_local_outlier_factor_outliers()
-            Identify outliers using the Local Outlier Factor (LOF) algorithm.
+            Display the novelty of the dataset.
+        _get_z_score_novelty()
+            Calculate the z-scores for each data point and identify novelty.
+        _get_iqr_novelty()
+            Calculate the interquartile range (IQR) and identify novelty.
+        _get_isolation_forest_novelty()
+            Identify novelty using the Isolation Forest algorithm.
+        _get_one_class_svm_novelty()
+            Identify novelty using the One-Class SVM algorithm.
+        _get_local_outlier_factor_novelty()
+            Identify novelty using the Local Outlier Factor (LOF) algorithm.
 
         Variables
         ---------
-        X : np.ndarray
-            The feature data.
+        X_train : np.ndarray
+            The training data.
+        X_test : np.ndarray
+            The validation data.
         z_score : go.Figure
             A Go Figure containing the z_score of the dataset.
         iqr : go.Figure
@@ -145,9 +142,9 @@ class Outliers:
             A Go Figure containing the local_outlier_factor of the dataset.
     """
 
-    def __init__(self, X: np.ndarray) -> None:
+    def __init__(self, X_train: np.ndarray, X_test: np.ndarray) -> None:
         """
-        Initialize the Outliers object with a dataset.
+        Initialize the Novelty object with a dataset.
 
         Name
         ----
@@ -155,7 +152,7 @@ class Outliers:
 
         Description
         -----------
-        Initialize the Outliers object with a dataset.
+        Initialize the Novelty object with a dataset.
 
         Dependencies
         ------------
@@ -166,35 +163,40 @@ class Outliers:
 
         Parameters
         ----------
-        X : np.ndarray
+        X_train : np.ndarray
+            The feature data.
+        X_test : np.ndarray
             The feature data.
 
         Examples
         --------
-        >>> outliers = Outliers(X=np.array([1, 2, 3, 4, 5]))
+        >>> novelty = Novelty(X_train=np.array([1, 2, 3, 4, 5]),
+        ...                   X_test=np.array([1, 2, 3, 4, 5])
+        ...                   )
         """
-        self.X = X
-        self.z_score = self._get_outliers(
-            method='z_score', outliers=self._get_z_score_outliers()
+        self.X_train = X_train
+        self.X_test = X_test
+        self.z_score = self._get_novelty(
+            method='z_score', novelty=self._get_z_score_novelty()
         )
-        self.iqr = self._get_outliers(
-            method='iqr', outliers=self._get_iqr_outliers()
+        self.iqr = self._get_novelty(
+            method='iqr', novelty=self._get_iqr_novelty()
         )
-        self.isolation_forest = self._get_outliers(
+        self.isolation_forest = self._get_novelty(
             method='isolation_forest',
-            outliers=self._get_isolation_forest_outliers(),
+            novelty=self._get_isolation_forest_novelty(),
         )
-        self.one_class_svm = self._get_outliers(
-            method='one_class_svm', outliers=self._get_one_class_svm_outliers()
+        self.one_class_svm = self._get_novelty(
+            method='one_class_svm', novelty=self._get_one_class_svm_novelty()
         )
-        self.local_outlier_factor = self._get_outliers(
+        self.local_outlier_factor = self._get_novelty(
             method='local_outlier_factor',
-            outliers=self._get_local_outlier_factor_outliers(),
+            novelty=self._get_local_outlier_factor_novelty(),
         )
 
-    def _get_z_score_outliers(self, threshold: float = 3) -> np.ndarray:
+    def _get_z_score_novelty(self, threshold: float = 3) -> np.ndarray:
         """
-        Calculate the z-scores for each data point and identify outliers.
+        Calculate the z-scores for each data point and identify novelty.
 
         Name
         ----
@@ -203,7 +205,7 @@ class Outliers:
         Description
         -----------
         This method calculates the z-scores for each data point in the dataset
-        and identifies outliers based on a given threshold.
+        and identifies novelty based on a given threshold.
 
         Dependencies
         ------------
@@ -217,24 +219,28 @@ class Outliers:
         Parameters
         ----------
         threshold : float, optional
-            The threshold value for identifying outliers (default is 3).
+            The threshold value for identifying novelty (default is 3).
 
         Returns
         -------
         np.ndarray
-            A boolean array indicating whether each data point is an outlier.
+            A boolean array indicating whether each data point is a novelty.
 
         Examples
         --------
-        >>> outliers = Outliers(X=np.array([1, 2, 3, 4, 5]))
-        >>> outliers._get_z_score_outliers(threshold=2)
+        >>> novelty = Novelty(X_train=np.array([1, 2, 3, 4, 5]),
+        ...                   X_test=np.array([1, 2, 3, 4, 5])
+        ...                   )
+        >>> novelty._get_z_score_novelty(threshold=2)
         """
-        z_scores = np.abs(stats.zscore(a=self.X, axis=0))
+        X_train_mean = np.mean(a=self.X_train, axis=0)
+        X_train_std = np.std(a=self.X_train, axis=0)
+        z_scores = np.abs((self.X_test - X_train_mean) / X_train_std)
         return (z_scores > threshold).any(axis=1)
 
-    def _get_iqr_outliers(self, threshold: float = 1.5) -> np.ndarray:
+    def _get_iqr_novelty(self, threshold: float = 1.5) -> np.ndarray:
         """
-        Calculate the interquartile range (IQR) and identify outliers.
+        Calculate the interquartile range (IQR) and identify novelty.
 
         Name
         ----
@@ -243,7 +249,7 @@ class Outliers:
         Description
         -----------
         This method calculates the IQR for each feature in the dataset and
-        identifies outliers based on a given threshold.
+        identifies novelty based on a given threshold.
 
         Dependencies
         ------------
@@ -255,40 +261,42 @@ class Outliers:
         Parameters
         ----------
         threshold : float, optional
-            The threshold value for identifying outliers (default is 1.5).
+            The threshold value for identifying novelty (default is 1.5).
 
         Returns
         -------
         np.ndarray
-            A boolean array indicating whether each data point is an outlier.
+            A boolean array indicating whether each data point is a novelty.
 
         Examples
         --------
-        >>> outliers = Outliers(X=np.array([1, 2, 3, 4, 5]))
-        >>> outliers._get_iqr_outliers(threshold=2)
+        >>> novelty = Novelty(X_train=np.array([1, 2, 3, 4, 5]),
+        ...                   X_test=np.array([1, 2, 3, 4, 5])
+        ...                   )
+        >>> novelty._get_iqr_novelty(threshold=2)
         """
-        Q1 = np.percentile(a=self.X, q=25, axis=0)
-        Q3 = np.percentile(a=self.X, q=75, axis=0)
+        Q1 = np.percentile(a=self.X_train, q=25, axis=0)
+        Q3 = np.percentile(a=self.X_train, q=75, axis=0)
         iqr = Q3 - Q1
         lower_bound = Q1 - threshold * iqr
         upper_bound = Q3 + threshold * iqr
         return np.any(
-            a=(self.X < lower_bound) | (self.X > upper_bound), axis=1
+            a=(self.X_test < lower_bound) | (self.X_test > upper_bound), axis=1
         )
 
-    def _get_isolation_forest_outliers(
+    def _get_isolation_forest_novelty(
         self, contamination: Union[str, float] = 'auto'
     ) -> np.ndarray:
         """
-        Identify outliers using the Isolation Forest algorithm.
+        Identify novelty using the Isolation Forest algorithm.
 
         Name
         ----
-        _get_isolation_forest_outliers
+        _get_isolation_forest_novelty
 
         Description
         -----------
-        This method uses the Isolation Forest algorithm to identify outliers in
+        This method uses the Isolation Forest algorithm to identify novelty in
         the dataset.
 
         Dependencies
@@ -303,25 +311,27 @@ class Outliers:
         Parameters
         ----------
         contamination : str | float, optional
-            The proportion of outliers in the data (default is 'auto').
+            The proportion of novelty in the data (default is 'auto').
 
         Returns
         -------
         np.ndarray
-            A boolean array indicating whether each data point is an outlier.
+            A boolean array indicating whether each data point is a novelty.
 
         Examples
         --------
-        >>> outliers = Outliers(X=np.array([1, 2, 3, 4, 5]))
-        >>> outliers._get_isolation_forest_outliers(contamination=0.1)
+        >>> novelty = Novelty(X_train=np.array([1, 2, 3, 4, 5]),
+        ...                   X_test=np.array([1, 2, 3, 4, 5])
+        ...                   )
+        >>> novelty._get_isolation_forest_novelty(contamination=0.1)
         """
         model = IsolationForest(contamination=contamination)
-        model.fit(X=self.X)
-        return model.decision_function(X=self.X) < 0
+        model.fit(X=self.X_train)
+        return model.decision_function(X=self.X_test) < 0
 
-    def _get_one_class_svm_outliers(self, nu: float = 0.05) -> np.ndarray:
+    def _get_one_class_svm_novelty(self, nu: float = 0.05) -> np.ndarray:
         """
-        Identify outliers using the One-Class SVM algorithm.
+        Identify novelty using the One-Class SVM algorithm.
 
         Name
         ----
@@ -329,7 +339,7 @@ class Outliers:
 
         Description
         -----------
-        This method uses the One-Class SVM algorithm to identify outliers in
+        This method uses the One-Class SVM algorithm to identify novelty in
         the dataset.
 
         Dependencies
@@ -350,33 +360,35 @@ class Outliers:
         Returns
         -------
         np.ndarray
-            A boolean array indicating whether each data point is an outlier.
+            A boolean array indicating whether each data point is a novelty.
 
         Examples
         --------
-        >>> outliers = Outliers(X=np.array([1, 2, 3, 4, 5]))
-        >>> outliers._get_one_class_svm_outliers(nu=0.1)
+        >>> novelty = Novelty(X_train=np.array([1, 2, 3, 4, 5]),
+        ...                   X_test=np.array([1, 2, 3, 4, 5])
+        ...                   )
+        >>> novelty._get_one_class_svm_novelty(nu=0.1)
         """
         model = OneClassSVM(gamma='auto', nu=nu)  # nu can be tuned
-        model.fit(X=self.X)
-        return model.decision_function(X=self.X) < 0
+        model.fit(X=self.X_train)
+        return model.decision_function(X=self.X_test) < 0
 
-    def _get_local_outlier_factor_outliers(
+    def _get_local_outlier_factor_novelty(
         self, n_neighbors: int = 20
     ) -> np.ndarray:
         """
-        Identify outliers using the Local Outlier Factor (LOF) algorithm.
+        Identify novelty using the Local Outlier Factor (LOF) algorithm.
 
         Name
         ----
-        _get_local_outlier_factor_outliers
+        _get_local_outlier_factor_novelty
 
         Description
         -----------
-        This method uses the LOF algorithm to identify outliers in the dataset.
+        This method uses the LOF algorithm to identify novelty in the dataset.
         The LOF algorithm calculates the local density of each data point and
         identifies points with a density significantly lower than their
-        neighbors as outliers.
+        neighbors as novelty.
 
         Dependencies
         ------------
@@ -396,20 +408,22 @@ class Outliers:
         Returns
         -------
         np.ndarray
-            A boolean array indicating whether each data point is an outlier.
+            A boolean array indicating whether each data point is a novelty.
 
         Examples
         --------
-        >>> outliers = Outliers(X=np.array([1, 2, 3, 4, 5]))
-        >>> outliers._get_local_outlier_factor_outliers(n_neighbors=10)
+        >>> novelty = Novelty(X_train=np.array([1, 2, 3, 4, 5]),
+        ...                   X_test=np.array([1, 2, 3, 4, 5])
+        ...                   )
+        >>> novelty._get_local_outlier_factor_novelty(n_neighbors=10)
         """
         model = LocalOutlierFactor(novelty=True, n_neighbors=n_neighbors)
-        model.fit(X=self.X)
-        return model.decision_function(X=self.X) < 0
+        model.fit(X=self.X_train)
+        return model.decision_function(X=self.X_test) < 0
 
-    def _get_outliers(self, method: str, outliers: np.ndarray) -> go.Figure:
+    def _get_novelty(self, method: str, novelty: np.ndarray) -> go.Figure:
         """
-        Create a plotly figure to visualize the outliers.
+        Create a plotly figure to visualize the novelty.
 
         Name
         ----
@@ -417,7 +431,7 @@ class Outliers:
 
         Description
         -----------
-        This method creates a plotly figure to visualize the outliers
+        This method creates a plotly figure to visualize the novelty
         identified by the specified method.
 
         Dependencies
@@ -441,40 +455,42 @@ class Outliers:
         Returns
         -------
         go.Figure
-            A plotly figure visualizing the outliers.
+            A plotly figure visualizing the novelty.
 
         Examples
         --------
-        >>> outliers = Outliers(X=np.array([1, 2, 3, 4, 5]))
-        >>> outliers._get_outliers(
-        ...     method='LOF', outliers=np.array(
+        >>> novelty = Novelty(X_train=np.array([1, 2, 3, 4, 5]),
+        ...                   X_test=np.array([1, 2, 3, 4, 5])
+        ...                   )
+        >>> novelty._get_novelty(
+        ...     method='LOF', novelty=np.array(
         ...         [True, False, True, False, True]
         ...         )
         ...     )
         """
         # Create a DataFrame for Plotly
         df_plot = pd.DataFrame(
-            data=self.X,
-            columns=[f'Feature {i+1}' for i in range(self.X.shape[1])],
+            data=self.X_test,
+            columns=[f'Feature {i+1}' for i in range(self.X_test.shape[1])],
         )
-        df_plot['Outlier'] = outliers
+        df_plot['Novelty'] = novelty
 
         # Create figure
         fig = go.Figure(
             data=go.Scatter3d(
-                x=df_plot.loc[df_plot['Outlier'], 'Feature 1'],
-                y=df_plot.loc[df_plot['Outlier'], 'Feature 2'],
-                z=df_plot.loc[df_plot['Outlier'], 'Feature 3'],
+                x=df_plot.loc[df_plot['Novelty'], 'Feature 1'],
+                y=df_plot.loc[df_plot['Novelty'], 'Feature 2'],
+                z=df_plot.loc[df_plot['Novelty'], 'Feature 3'],
                 mode='markers',
                 marker=dict(size=1, opacity=0.4, color='red', symbol='x'),
-                name='Outlier',
+                name='Novelty',
             )
         )
 
         # Update layout
         fig.update_layout(
             title={
-                'text': f'3D Scatter Plot of Features with {method} Outliers',
+                'text': f'3D Scatter Plot of Features with {method} Novelty',
                 'y': 0.95,
                 'x': 0.5,
                 'xanchor': 'center',
@@ -507,7 +523,7 @@ class Outliers:
 
     def __repr__(self) -> str:
         """
-        Provide a string representation of the Outliers object.
+        Provide a string representation of the Novelty object.
 
         Name
         ----
@@ -515,23 +531,23 @@ class Outliers:
 
         Description
         -----------
-        Provide a string representation of the Outliers object.
+        Provide a string representation of the Novelty object.
 
         Returns
         -------
         str
-            A string representation of the Outliers object.
+            A string representation of the Novelty object.
 
         Examples
         --------
-        >>> print(outliers)
-        Outliers()
+        >>> print(novelty)
+        Novelty()
         """
-        return f"Outliers(X.shape={self.X.shape})"
+        return f"Novelty(X_test.shape={self.X_test.shape})"
 
     def __call__(self, display: str = 'notebook') -> Optional[html.Div]:
         """
-        Display the outliers of the dataset.
+        Display the novelty of the dataset.
 
         Name
         ----
@@ -566,9 +582,11 @@ class Outliers:
 
         Examples
         --------
-        >>> outliers = Outliers(X=np.array([1, 2, 3, 4, 5]))
-        >>> outliers()
-        >>> outliers(display='container')
+        >>> novelty = Novelty(X_train=np.array([1, 2, 3, 4, 5]),
+        ...                   X_test=np.array([1, 2, 3, 4, 5])
+        ...                   )
+        >>> novelty()
+        >>> novelty(display='container')
         """
         if display == 'notebook':
             # Convert fig to a FigureWidget
@@ -640,5 +658,5 @@ class Outliers:
 if __name__ == "__main__":
     gen = GenerateData()
     split = SplitData(gen=gen)
-    outliers = Outliers(split.X.train)
-    outliers('container')
+    novelty = Novelty(X_train=split.X.train, X_test=split.X.test)
+    novelty('container')
