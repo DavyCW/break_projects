@@ -110,6 +110,8 @@ class PairPlot:
 
         Variables
         ---------
+        sample_size : int
+            The number of samples to display in the pairplot.
         pairplot : go.Figure
             A Go Figure containing the pairplot of the dataset.
     """
@@ -141,6 +143,8 @@ class PairPlot:
             The feature data.
         y : np.ndarray
             The label data.
+        sample_size : int
+            The number of samples to display in the pairplot.
 
         Examples
         --------
