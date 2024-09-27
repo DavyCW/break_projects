@@ -12,11 +12,17 @@ src/classifiy3D/generate_data.py takes a ssp{n}.txt file from a folder called
 data/ with the format:
 
 """radius (float)
+
 1(int)   x_1(float)   y_1(float)   z_1(float)
+
 ...
+
 i(int)   x_i(float)   y_i(float)   z_i(float)
+
 ...
+
 n(int)   x_n(float)   y_n(float)   z_n(float)
+
 """
 
 where n is the number of points. An example file is ssp256.txt, which has
