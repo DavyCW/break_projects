@@ -344,7 +344,8 @@ class BasicCorrelation:
                     dbc.Row(
                         children=dbc.Col(
                             children=dcc.Graph(
-                                id='heatmap', figure=self.basic_correlation
+                                id='heatmap-basic-cor',
+                                figure=self.basic_correlation,
                             ),
                             width="auto",
                         ),

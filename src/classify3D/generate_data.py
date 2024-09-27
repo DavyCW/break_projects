@@ -39,12 +39,13 @@ Attributes
 
 import numpy as np
 from scipy.stats import uniform, dirichlet
-from typing import List
+from typing import List, Optional
 import matplotlib.pyplot as plt
 from matplotlib import colors as mcolors
 import plotly.graph_objects as go
 import dash
 from dash import dcc, html
+import dash_bootstrap_components as dbc
 
 
 class GenerateData:
@@ -769,7 +770,7 @@ class GenerateData:
 
         return plot_data, X, y
 
-    def __call__(self, display: str = 'notebook') -> None:
+    def __call__(self, display: str = 'notebook') -> Optional[html.Div]:
         """
         Create and display a 3D plot using Plotly.
 
@@ -806,45 +807,57 @@ class GenerateData:
 
         fig.update_layout(
             scene_aspectmode='data',
+            plot_bgcolor='#222',  # Background color for the plot area
+            paper_bgcolor='#222',  # Background color for the paper
+            font=dict(color='white'),
+            autosize=False,
+            width=1500,
+            height=1000,
             scene=dict(
+                xaxis_title='x',
+                yaxis_title='y',
+                zaxis_title='z',
+                bgcolor='#222',
                 xaxis=dict(
-                    showgrid=False,
-                    zeroline=False,
-                    showline=False,
-                    title='',
-                    showbackground=False,
-                    tickvals=[],  # Hide tick values
-                    ticktext=[],  # Hide tick text
-                ),
+                    showgrid=False, backgroundcolor='#222', color='#222'
+                ),  # Disable x-axis grid
                 yaxis=dict(
-                    showgrid=False,
-                    zeroline=False,
-                    showline=False,
-                    title='',
-                    showbackground=False,
-                    tickvals=[],  # Hide tick values
-                    ticktext=[],  # Hide tick text
-                ),
+                    showgrid=False, backgroundcolor='#222', color='#222'
+                ),  # Disable y-axis grid
                 zaxis=dict(
-                    showgrid=False,
-                    zeroline=False,
-                    showline=False,
-                    title='',
-                    showbackground=False,
-                    tickvals=[],  # Hide tick values
-                    ticktext=[],  # Hide tick text
-                ),
+                    showgrid=False, backgroundcolor='#222', color='#222'
+                ),  # Disable z-axis grid
             ),
         )
 
-        if display == 'container':
+        if display == 'container' or display == 'none':
             # Initialize the Dash app
-            app = dash.Dash(__name__)
+            app = dash.Dash(
+                name=__name__, external_stylesheets=[dbc.themes.DARKLY]
+            )
             # Define the layout of the Dash app
-            app.layout = html.Div([dcc.Graph(id='3d-plot', figure=fig)])
-            app.run_server(debug=True, host='0.0.0.0', port=8050)
+            app.layout = dbc.Container(
+                children=[
+                    dbc.Row(
+                        children=dbc.Col(
+                            children=[
+                                dcc.Graph(id='3d-plot-gen', figure=fig),
+                            ],
+                            width="auto",
+                        ),
+                        justify='center',  # Center the Row content
+                    ),
+                ],
+                fluid=True,
+            )
+            if display == 'container':
+                # Run the Dash server on the specified port and host
+                app.run_server(debug=True, host='0.0.0.0', port=8050)
+            elif display == 'none':
+                return app.layout
         elif display == 'notebook':
             fig.show()
+        return None
 
 
 if __name__ == "__main__":

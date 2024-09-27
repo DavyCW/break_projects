@@ -205,6 +205,8 @@ class SplitData:
 
         Variables
         ---------
+        gen : GenerateData
+            The data.
         X : Data
             The feature data.
         y : Data
@@ -251,7 +253,7 @@ class SplitData:
 
         Parameters
         ----------
-        gen : np.GenerateData
+        gen : GenerateData
             The data.
         train_prop : float, optional
             The proportion of data to use for training (default is 0.7).
@@ -263,6 +265,7 @@ class SplitData:
         >>> gen = GenerateData()
         >>> split_data = SplitData(gen, train_prop=0.6, test_prop=0.2)
         """
+        self.gen = gen
         self.train_prop = train_prop
         self.test_prop = test_prop
         self.val_prop = max(1 - self.train_prop - self.test_prop, 0)

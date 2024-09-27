@@ -543,11 +543,13 @@ class Distributions:
                     dbc.Row(
                         children=dbc.Col(
                             children=[
-                                dcc.Graph(id='bar plot', figure=self.bar_plot),
                                 dcc.Graph(
-                                    id='histogram', figure=self.histogram
+                                    id='bar plot-dist', figure=self.bar_plot
                                 ),
-                                dcc.Graph(id='kde', figure=self.kde),
+                                dcc.Graph(
+                                    id='histogram-dist', figure=self.histogram
+                                ),
+                                dcc.Graph(id='kde-dist', figure=self.kde),
                             ],
                             width="auto",
                         ),

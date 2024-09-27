@@ -618,18 +618,20 @@ class Novelty:
                     dbc.Row(
                         children=dbc.Col(
                             children=[
-                                dcc.Graph(id='z_score', figure=self.z_score),
-                                dcc.Graph(id='iqr', figure=self.iqr),
                                 dcc.Graph(
-                                    id='isolation_forest',
+                                    id='z_score-nov', figure=self.z_score
+                                ),
+                                dcc.Graph(id='iqr-nov', figure=self.iqr),
+                                dcc.Graph(
+                                    id='isolation_forest-nov',
                                     figure=self.isolation_forest,
                                 ),
                                 dcc.Graph(
-                                    id='one_class_svm',
+                                    id='one_class_svm-nov',
                                     figure=self.one_class_svm,
                                 ),
                                 dcc.Graph(
-                                    id='local_outlier_factor',
+                                    id='local_outlier_factor-nov',
                                     figure=self.local_outlier_factor,
                                 ),
                             ],

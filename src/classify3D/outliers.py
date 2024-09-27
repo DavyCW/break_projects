@@ -600,18 +600,20 @@ class Outliers:
                     dbc.Row(
                         children=dbc.Col(
                             children=[
-                                dcc.Graph(id='z_score', figure=self.z_score),
-                                dcc.Graph(id='iqr', figure=self.iqr),
                                 dcc.Graph(
-                                    id='isolation_forest',
+                                    id='z_score-out', figure=self.z_score
+                                ),
+                                dcc.Graph(id='iqr-out', figure=self.iqr),
+                                dcc.Graph(
+                                    id='isolation_forest-out',
                                     figure=self.isolation_forest,
                                 ),
                                 dcc.Graph(
-                                    id='one_class_svm',
+                                    id='one_class_svm-out',
                                     figure=self.one_class_svm,
                                 ),
                                 dcc.Graph(
-                                    id='local_outlier_factor',
+                                    id='local_outlier_factor-out',
                                     figure=self.local_outlier_factor,
                                 ),
                             ],

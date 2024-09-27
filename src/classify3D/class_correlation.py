@@ -56,6 +56,7 @@ import colorsys
 from matplotlib import colors as mcolors
 from IPython.display import display as notebook_display
 import ipywidgets as widgets
+from typing import Optional
 
 
 class ClassCorrelation:
@@ -347,18 +348,18 @@ class ClassCorrelation:
         >>> layout
         html.Div(children=[
         ...    html.H1('Class Correlation'),
-        ...    dcc.Dropdown(id='class-dropdown', options=[...]),
-        ...    html.Div(id='page-content')
+        ...    dcc.Dropdown(id='class-dropdown-class-cor', options=[...]),
+        ...    html.Div(id='page-content-class-cor')
         ... ])
         """
         return html.Div(
             children=[
                 # Creates a Location component to get the current URL
-                dcc.Location(id='url', refresh=False),
+                dcc.Location(id='url-class-cor', refresh=False),
                 # Creates a container for the page content
-                dbc.Container(id='page-content', fluid=True),
+                dbc.Container(id='page-content-class-cor', fluid=True),
                 # Creates a Store component to store the current page
-                dcc.Store(id='current-page', data=self.keys[0]),
+                dcc.Store(id='current-page-class-cor', data=self.keys[0]),
                 # Creates a row for buttons and dropdown
                 dbc.Row(
                     children=[
@@ -366,7 +367,7 @@ class ClassCorrelation:
                         dbc.Col(
                             children=dbc.Button(
                                 children='Previous',
-                                id='prev-page',
+                                id='prev-page-class-cor',
                                 n_clicks=0,
                                 style={
                                     'color': '#000000',
@@ -378,7 +379,7 @@ class ClassCorrelation:
                         # Creates a column for the dropdown
                         dbc.Col(
                             children=dcc.Dropdown(
-                                id='page-dropdown',
+                                id='page-dropdown-class-cor',
                                 clearable=False,
                                 options=[
                                     {'label': key, 'value': key}
@@ -397,7 +398,7 @@ class ClassCorrelation:
                         dbc.Col(
                             children=dbc.Button(
                                 children='Next',
-                                id='next-page',
+                                id='next-page-class-cor',
                                 n_clicks=0,
                                 style={
                                     'color': '#000000',
@@ -447,33 +448,76 @@ class ClassCorrelation:
         """
         # Register the callback for updating the page content
         app.callback(
-            Output(component_id='page-content', component_property='children'),
-            Input(component_id='current-page', component_property='data'),
-            Input(component_id='page-dropdown', component_property='value'),
+            Output(
+                component_id='page-content-class-cor',
+                component_property='children',
+            ),
+            Input(
+                component_id='current-page-class-cor',
+                component_property='data',
+            ),
+            Input(
+                component_id='page-dropdown-class-cor',
+                component_property='value',
+            ),
+            prevent_initial_call=True,
         )(self._display_page)
 
         # Register the callback for handling button clicks and updating
         app.callback(
-            Output(component_id='current-page', component_property='data'),
-            Output(component_id='page-dropdown', component_property='value'),
-            Input(component_id='prev-page', component_property='n_clicks'),
-            Input(component_id='next-page', component_property='n_clicks'),
-            Input(component_id='page-dropdown', component_property='value'),
+            Output(
+                component_id='current-page-class-cor',
+                component_property='data',
+            ),
+            Output(
+                component_id='page-dropdown-class-cor',
+                component_property='value',
+            ),
+            Input(
+                component_id='prev-page-class-cor',
+                component_property='n_clicks',
+            ),
+            Input(
+                component_id='next-page-class-cor',
+                component_property='n_clicks',
+            ),
+            Input(
+                component_id='page-dropdown-class-cor',
+                component_property='value',
+            ),
+            prevent_initial_call=True,
         )(self._update_page)
 
         # Register the callback to update the dropdown style
         app.callback(
-            Output(component_id='page-dropdown', component_property='style'),
-            Input(component_id='page-dropdown', component_property='value'),
+            Output(
+                component_id='page-dropdown-class-cor',
+                component_property='style',
+            ),
+            Input(
+                component_id='page-dropdown-class-cor',
+                component_property='value',
+            ),
+            prevent_initial_call=True,
         )(self._update_dropdown_style)
 
         # Register the callback to update the button styles
         app.callback(
             [
-                Output(component_id='prev-page', component_property='style'),
-                Output(component_id='next-page', component_property='style'),
+                Output(
+                    component_id='prev-page-class-cor',
+                    component_property='style',
+                ),
+                Output(
+                    component_id='next-page-class-cor',
+                    component_property='style',
+                ),
             ],
-            Input(component_id='page-dropdown', component_property='value'),
+            Input(
+                component_id='page-dropdown-class-cor',
+                component_property='value',
+            ),
+            prevent_initial_call=True,
         )(self._update_button_styles)
 
     def _display_page(
@@ -587,11 +631,11 @@ class ClassCorrelation:
             button_id = ctx.triggered[0]['prop_id'].split('.')[0]
             current_key = selected_key
 
-            if button_id == 'next-page':
+            if button_id == 'next-page-class-cor':
                 current_index = self.keys.index(current_key)
                 if current_index < len(self.keys) - 1:
                     current_key = self.keys[current_index + 1]
-            elif button_id == 'prev-page':
+            elif button_id == 'prev-page-class-cor':
                 current_index = self.keys.index(current_key)
                 if current_index > 0:
                     current_key = self.keys[current_index - 1]
@@ -811,7 +855,7 @@ class ClassCorrelation:
             notebook_display(fig)
             clear_output(wait=True)
 
-    def __call__(self, display: str = 'container') -> None:
+    def __call__(self, display: str = 'container') -> Optional[html.Div]:
         """
         Display the class correlation in a Dash app or Jupyter notebook.
 
@@ -848,7 +892,7 @@ class ClassCorrelation:
         """
         if display == 'notebook':
             self._notebook_display()
-        elif display == 'container':
+        elif display == 'container' or display == 'none':
             # Initialize the Dash app
             app = Dash(name=__name__, external_stylesheets=[dbc.themes.DARKLY])
 
@@ -858,8 +902,12 @@ class ClassCorrelation:
             # Register the callbacks
             self._register_callbacks(app)
 
-            # Run the Dash server
-            app.run_server(debug=True, host='0.0.0.0', port=8050)
+            if display == 'container':
+                # Run the Dash server on the specified port and host
+                app.run_server(debug=True, host='0.0.0.0', port=8050)
+            elif display == 'none':
+                return app.layout
+        return None
 
 
 if __name__ == "__main__":

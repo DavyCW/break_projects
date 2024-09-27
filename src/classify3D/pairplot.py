@@ -402,7 +402,7 @@ class PairPlot:
                     dbc.Row(
                         children=dbc.Col(
                             children=dcc.Graph(
-                                id='heatmap', figure=self.pairplot
+                                id='heatmap-pplot', figure=self.pairplot
                             ),
                             width="auto",
                         ),
