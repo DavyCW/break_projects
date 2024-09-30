@@ -139,12 +139,12 @@ def test_transformed_data_repr() -> None:
     assert "TransformedData" in result
 
 
-@patch('sklearn.preprocessing.StandardScaler')
-@patch('sklearn.preprocessing.PowerTransformer')
-@patch('sklearn.preprocessing.RobustScaler')
-@patch('sklearn.preprocessing.MinMaxScaler')
-@patch('sklearn.preprocessing.QuantileTransformer')
-@patch('sklearn.preprocessing.MaxAbsScaler')
+@patch('src.classify3D.transform_data.StandardScaler')
+@patch('src.classify3D.transform_data.PowerTransformer')
+@patch('src.classify3D.transform_data.RobustScaler')
+@patch('src.classify3D.transform_data.MinMaxScaler')
+@patch('src.classify3D.transform_data.QuantileTransformer')
+@patch('src.classify3D.transform_data.MaxAbsScaler')
 def test_data_transformer_initialization(
     mock_standard: MagicMock,
     mock_power: MagicMock,
@@ -202,12 +202,12 @@ def test_data_transformer_initialization(
     assert isinstance(transformer.max_abs_scaler, MagicMock)
 
 
-@patch('sklearn.preprocessing.StandardScaler')
-@patch('sklearn.preprocessing.PowerTransformer')
-@patch('sklearn.preprocessing.RobustScaler')
-@patch('sklearn.preprocessing.MinMaxScaler')
-@patch('sklearn.preprocessing.QuantileTransformer')
-@patch('sklearn.preprocessing.MaxAbsScaler')
+@patch('src.classify3D.transform_data.StandardScaler')
+@patch('src.classify3D.transform_data.PowerTransformer')
+@patch('src.classify3D.transform_data.RobustScaler')
+@patch('src.classify3D.transform_data.MinMaxScaler')
+@patch('src.classify3D.transform_data.QuantileTransformer')
+@patch('src.classify3D.transform_data.MaxAbsScaler')
 def test_data_transformer_call(
     mock_max_abs_scaler: MagicMock,
     mock_quantile_transformer: MagicMock,
