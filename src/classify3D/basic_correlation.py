@@ -338,7 +338,6 @@ class BasicCorrelation:
                 name=__name__, external_stylesheets=[dbc.themes.DARKLY]
             )
 
-            # Define the layout of the Dash app
             app.layout = dbc.Container(
                 children=[
                     dbc.Row(
