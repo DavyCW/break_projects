@@ -253,21 +253,27 @@ class ClassCorrelation:
          1: BasicCorrelation(data=np.array([[5, 6]]))
          }
         """
-        # Sort X based on y and then group using unique labels
+        # Sort indices based on y
         sorted_idx = np.argsort(a=y)
 
-        # Identify the unique labels and the start/end indices of groups
+        # Identify unique labels and the starting index of each group
         unique_labels, group_indices = np.unique(
             ar=y[sorted_idx], return_index=True
         )
 
+        # Calculate the end indices for each group by shifting group_indices
+        split_indices = np.append(arr=group_indices[1:], values=len(y))
+
         # Split X into groups based on label
         grouped_data = np.split(
-            ary=X[sorted_idx], indices_or_sections=group_indices[1:]
+            ary=X[sorted_idx], indices_or_sections=split_indices[:-1]
         )
+
+        # Build a dictionary of data grouped by unique labels
         data_dict = {}
         for label, data in zip(unique_labels, grouped_data):
             data_dict[label] = BasicCorrelation(X=data, name=label)
+
         return data_dict
 
     def _lighten_color(self, color: str, amount=0.5) -> str:
