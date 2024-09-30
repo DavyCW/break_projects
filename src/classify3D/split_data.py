@@ -391,8 +391,10 @@ class SplitData:
             self.X = Data(train=X_tr, test=X_t, val=X_v)
             self.y = Data(train=y_tr, test=y_t, val=y_v)
         else:
-            self.X = Data(train=X_tr, test=X_tv, val=np.empty_like(X_tr))
-            self.y = Data(train=y_tr, test=y_tv, val=np.empty_like(y_tr))
+            self.X = Data(
+                train=X_tr, test=X_tv, val=np.empty((0, X_tr.shape[1]))
+            )
+            self.y = Data(train=y_tr, test=y_tv, val=np.empty((0,)))
 
 
 if __name__ == "__main__":
