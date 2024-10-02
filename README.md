@@ -5,7 +5,9 @@ Repository for projects done while on break.
 All the classes with visualizations use their __call__ method to generate those
 visualizations. If generating within a Jupyter Notebook, pass __call__
 'notebook'. If generating from the command line in a container, pass __call__
-'container'.
+'container'. Print statement currently says it's located at 0.0.0.0, this is not
+correct. It is located at 127.0.0.1, it just has to be passed 0.0.0.0 due to
+the nature of the container.
 
 # Generate Data
 src/classifiy3D/generate_data.py takes a ssp{n}.txt file from a folder called
