@@ -33,6 +33,6 @@
     "appPort": [
         "8050:8050"  // Forward the port from the container to the host
     ],
-    "postCreateCommand": "python3 -m pip install -e .[classification,dev]",
+    "postCreateCommand": "python3 -m pip install -e .[classification,dev] --root-user-action=ignore",
     "remoteUser": "root"
 }

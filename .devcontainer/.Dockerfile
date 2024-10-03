@@ -8,6 +8,8 @@ RUN yum install -y python3 git python3-pip && \
 # Set the working directory
 WORKDIR /workspace
 
+RUN yum remove -y python3-requests
+
 # Copy the necessary files from the parent directory
 COPY ../setup.py .
 COPY ../setup.cfg .
