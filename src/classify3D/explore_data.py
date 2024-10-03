@@ -543,7 +543,12 @@ class ExploreData:
         self.class_cor._register_callbacks(app=app)
 
         # Start the server
-        app.run_server(debug=True, host='0.0.0.0', port=8050)
+        app.run(
+            debug=True,
+            host='0.0.0.0',
+            proxy="http://0.0.0.0:8050::https://127.0.0.1:8050",
+            port=8050,
+        )
 
 
 if __name__ == '__main__':

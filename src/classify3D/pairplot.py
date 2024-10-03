@@ -414,7 +414,12 @@ class PairPlot:
 
             if display == 'container':
                 # Run the Dash server on the specified port and host
-                app.run_server(debug=True, host='0.0.0.0', port=8050)
+                app.run(
+                    debug=True,
+                    host='0.0.0.0',
+                    proxy="http://0.0.0.0:8050::https://127.0.0.1:8050",
+                    port=8050,
+                )
             elif display == 'none':
                 return app.layout
 
